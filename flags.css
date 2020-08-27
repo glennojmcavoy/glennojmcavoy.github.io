@@ -1,0 +1,165 @@
+/*
+* === CSS document ===
+*/
+/*
+* — Tag section —
+*/
+
+html { /*sets the background colour*/
+    background-color: #C7C1C1; 
+}
+body { /*sets size and background colour of the body*/
+    min-width: 450px; /*sets the min width of the page*/
+    max-width: 960px; /*sets the mac width of the page*/
+    margin: auto;
+    background-color: #ffffff;
+}
+h1 {
+    color: #8F8888;
+    font-family: Lucida Sans Unicode;
+}
+h2 { /*Gives heading 2 a particular style with correct bullet point image to it's left*/
+    color: #8F8888; /*sets the colour of the text*/
+    font-family: Lucida Sans Unicode;
+    padding-left: 16px;
+    background: url("https://internal.cs.ncl.ac.uk/modules/2016-17/csc1026/flags/css/12-dkgrey.png") 0 center; 
+	/*^^Allows an image to be added to the page using CSS*/
+    background-repeat: no-repeat; /*ensure the image is not repeated*/
+}
+h3 { /*Gives heading 3 a particular style with correct bullet point image to it's left*/
+    color: #8F8888;
+    font-family: Lucida Sans Unicode;
+    padding-left: 12px;
+    background: url("https://internal.cs.ncl.ac.uk/modules/2016-17/csc1026/flags/css/8-dkgrey.png") 0 center;
+    background-repeat: no-repeat;
+}
+p { /*Gives p tag certain font*/
+    font-family: Palatino Linotype;
+}
+object { /*Gives object tag 15 pixel margin at the top*/
+    margin-top: 15px;
+}
+/*
+* — ID section —
+*/
+
+#headerFlags { /*ensures headerflag image appears on right and does not repeat*/
+    background-image: url("70-flags.png");
+    background-repeat: no-repeat;
+    float: right;
+    width: 200px;
+    height: 70px;
+    margin-top: 15px;
+}
+#navBarArea { /*sets the position of the navbar area*/
+    background-color: #5D2C2C;
+	/*sets the background colour*/
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    max-width: 960px;
+    position: absolute;
+    top: 0px;
+}
+#navBarArea a { /*removes the blue link feature from hyperlink on navbar*/
+    text-decoration: none;
+    color: #C7C1C1;
+}
+#youtubeAlign { /*ensures the yt video appears on the right with the correct size and spacing around it*/
+    float: right;
+    background-image: url("https://internal.cs.ncl.ac.uk/modules/2016-17/csc1026/flags/css/460x320-box.png");
+    background-repeat: no-repeat;
+    min-width: 460px;
+    min-height: 320px;
+    padding-left: 20px;
+	margin-top: 10px;
+	margin-left:30px;
+}
+#youtubeAlign p { /*ensures text appears under yt video*/
+    text-align: center;
+    font-size: small;
+}
+#nationalFlagsLink { /*ensures flags link appears on the right*/
+    float: right;
+    padding-bottom: 40px;
+}
+#specialLink { /*makes image appear on the right with the correct spacing around it*/
+    float: right;
+    margin-right: 20px;
+    margin-top: 25px;
+}
+#flickArea { /*makes the image appear on the right with the correct spacing around it*/
+    float: right;
+    background-repeat: no-repeat;
+    background-image: url("https://internal.cs.ncl.ac.uk/modules/2016-17/csc1026/flags/css/420x370-box.png");
+    min-width: 420px;
+    min-height: 370px;
+    margin-bottom: 20px;
+	margin-left:10px;
+}
+#navBarArea ul { /*makes the whole list appear on the right*/
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+#navBarArea li { /*ensures list appears from left to right horizontalally*/
+    float: left;
+    padding: 3px;
+}
+#introArea,
+#historyArea,
+#nationalFlags,
+#sigFlagArea,
+#flagNumbersArea,
+#flagLettersArea,
+#footerArea { /*ensures the padding of all body text is correctly indented*/
+    padding-left:7px;
+	padding-right:6px;
+}
+#footerArea { /*ensures the footer area in of sufficient height*/
+    height: 30px;
+}
+#footerArea p { /*makes the footer areas text appear on the right and smaller*/
+    float: right;
+    margin: auto;
+    font-size: small;
+}
+#nationalFlagImg {/*make image of national flag appear on the right and sets the width*/
+    float: right; 
+    background-image: url("https://internal.cs.ncl.ac.uk/modules/2016-17/csc1026/flags/css/3-flags75.png");
+    background-repeat: no-repeat;
+    width: 415px;
+    height: 200px;
+}
+#titleArea { /*makes the title area big enough to display the text and the image*/
+    height: 100px;
+    margin-left: 20px;
+}
+#titleArea h1 {
+    padding-top: 25px; /*indents the title area "Flags"*/
+}
+/*
+* — Class section —
+*/
+
+.header-box {
+    border-top: 10px solid #5D2C2C; /*creates a brown/maroon page divider*/
+}
+.hide {
+    display: none; /*is used to hide the horizontal rule tags so they don't appear in css*/
+}
+.itemNum span {
+    font-variant: small-caps; /*sets the text inside this particular section to small capital letters*/
+}
+.itemNum,
+.itemLet {
+    display: inline-block; /*makes the images display on the screen as if they were in a grid*/
+    font-weight: bold; /*makes the text above the images bold*/
+    padding-left: 10px; /*creates space between each image*/
+    padding-right: 10px; /*creates space between each image*/
+}
+.itemLet img {
+    border: 1px solid black; /*creates a solid black border around the letter flag images*/
+}
+

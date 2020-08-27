@@ -1,0 +1,73 @@
+package deliverySystem with SPARK_Mode is
+   
+   pragma Assertion_Policy (Pre => Check); -- Turn on precondition checks
+   pragma Warnings (off); --looks cleaner
+  
+   TOCSIN_MINIMUM_BPM: constant Integer := 50;
+   TOCSIN_MAXIMIM_BPM: constant Integer := 100;
+   INFUSION_UPPER_BOUNDS: constant Integer := 9;
+   MINUTE: Constant Integer := 60;
+   CONVERT_TO_SECONDS: Constant Integer := 10; -- used to convert from centiseconds to seconds
+   
+   -- ECG Readings definition
+   subtype ecgReadingsSize is Natural range 1..3;
+   subtype ecgReading is Natural range 2..600; -- Max heart rate 300
+   type ecgReadings is array (ecgReadingsSize) of ecgReading;
+   
+   -- EEG Readings definition
+   subtype eegReadingsSize is Natural range 1..10;
+   subtype eegReading is Natural range 0..1; -- eegRReading is 0 or 1
+   type eegReadings is array (eegReadingsSize) of eegReading;
+   type eegPartialSums is array (eegReadingsSize) of Natural;
+
+   -- Defines the range of the acceptable BPM
+   MAXIMUM_BPM: constant Natural := ((MINUTE/ecgReading'First) * CONVERT_TO_SECONDS);
+   MINIMUM_BPM: constant Natural := ((MINUTE/ecgReading'Last) * CONVERT_TO_SECONDS);
+   subtype bpmRange is Natural range MINIMUM_BPM .. MAXIMUM_BPM;
+   
+   -- Defines the range of the acceptable suppression time.
+   MAXIMUM_ST: constant Natural := (eegReading'Last * eegReadingsSize'Last);
+   MINIMUM_ST: constant Natural := (eegReading'First * eegReadingsSize'First);
+   subtype stRange is Natural range MINIMUM_ST .. MAXIMUM_ST;
+   
+   -- ## Functions ##
+   
+   -- # Calculates the AVG number of Beats Per Minute (BPM) using the last 3 Time Between Beats Readings (Deciseconds)
+   --   For example: (10,10,10) = 60 BPM
+   function CalcBPM(ecgR: in ecgReadings) return bpmRange -- Calculates the patients BPM
+     with
+       post =>  CalcBPM'Result >= MINIMUM_BPM and then CalcBPM'Result <= MAXIMUM_BPM; 
+   
+   
+   -- # Calculates the number of seconds the brain is in a suppressed state (indicated by a 1)
+   --  For example: (0,0,0,0,0,0,0,0,1,0) = 1 second
+   function CalcST(eegR: in eegReadings) return stRange -- Calculates time between brain activity
+     with 
+       post => CalcST'Result  = eegReadings'Length - sumEEGR (eegR) (eegR'Last);
+ 
+   
+   -- # Decides if to sound the Tocsin
+   -- For example: bpm = 60 will return FALSE 
+   function IsSoundTocsin(bpm: in bpmRange)  return Boolean 
+     with                                      
+       post => IsSoundTocsin'Result = (if bpm < TOCSIN_MINIMUM_BPM or bpm > TOCSIN_MAXIMIM_BPM then true else false);
+   
+   -- # Decides if to infuse patient with medicine
+   -- For example: supT = 9 will return false
+   function IsInfuse(suppressionTime: in stRange) return Boolean -- Decides if patient needs more drugs
+     with
+       post => IsInfuse'Result = (if suppressionTime < INFUSION_UPPER_BOUNDS then true else false); --sme
+   
+   -- # Auxillary function Ghost function which sums the values of an array to produce the supression time
+   function sumEEGR (eegR : in eegReadings) return eegPartialSums with Ghost,
+       Post =>  (sumEEGR'Result'Length = eegR'Length) 
+       and then (sumEEGR'Result'First = eegR'First) 
+       and then (for all I in eegR'First .. eegR'Last =>
+         (sumEEGR'Result (I)) <= I * eegReadings'Last) --10 * 10
+       and then (sumEEGR'Result (eegR'First) = eegR (eegR'First))
+       and then (for all I in eegR'First + 1 .. eegR'Last =>
+         sumEEGR'Result (I) = sumEEGR'Result (I - 1) + eegR (I));
+ 
+end deliverySystem;
+
+
